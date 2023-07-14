@@ -1,0 +1,28 @@
+name: Rust Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions: write-all
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --release -p phira-mp-server
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ runner.os }}
+        path: target/release/phira-mp-server
