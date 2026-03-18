@@ -65,6 +65,8 @@ jobs:
         run: rustup target add ${{ matrix.target }}
 
       - uses: Swatinem/rust-cache@v2
+        with:
+          key: release-${{ matrix.target }}
 
       - name: Build binary
         run: >
