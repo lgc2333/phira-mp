@@ -174,12 +174,14 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           pattern: '*'
+          path: artifacts
 
       - name: Package binaries
         run: |
           mkdir -p dist
-          for d in */; do
-            zip -r "dist/${d%/}.zip" "$d"
+          for d in artifacts/*/; do
+            name=$(basename "$d")
+            (cd "$d" && zip -r "../../dist/$name.zip" .)
           done
 
       - name: Publish release
