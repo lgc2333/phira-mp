@@ -21,26 +21,21 @@ jobs:
             runs-on: ubuntu-24.04-arm
 
           # cross is trying to build amd64 image on arm runner!
-          # i'm giving up to build not vendored openssl for musl linux
+          # so i'm using x86 runner
           - target: x86_64-unknown-linux-musl
             runs-on: ubuntu-latest
             cross-needed: true
-            vendored-openssl: true
           - target: aarch64-unknown-linux-musl
             runs-on: ubuntu-latest
             cross-needed: true
-            vendored-openssl: true
 
-          # i can't find a way to use non-vendored openssl for android build
-          # so i'm also giving up
+          # use cross build android binaries is more convenient
           - target: aarch64-linux-android
             runs-on: ubuntu-latest
             cross-needed: true
-            vendored-openssl: true
           - target: x86_64-linux-android
             runs-on: ubuntu-latest
             cross-needed: true
-            vendored-openssl: true
 
           - target: aarch64-apple-darwin
             runs-on: macos-latest
@@ -73,10 +68,6 @@ jobs:
       - name: Add rustup target (No cross)
         if: matrix.cross-needed != true
         run: rustup target add ${{ matrix.target }}
-
-      - name: Add vendored openssl
-        if: matrix.vendored-openssl == true
-        run: cargo add openssl --features vendored --package phira-mp-server
 
       - name: Build binary
         run: >
