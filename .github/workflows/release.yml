@@ -128,7 +128,6 @@ jobs:
           FROM alpine:3
           ARG TARGETARCH
           WORKDIR /app
-          RUN apk add --no-cache openssl
           COPY \${TARGETARCH}/${{ env.BIN_NAME }} .
           EXPOSE 12346
           ENTRYPOINT ["./${{ env.BIN_NAME }}"]
