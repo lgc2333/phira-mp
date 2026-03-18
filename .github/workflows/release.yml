@@ -64,6 +64,8 @@ jobs:
         if: matrix.cross-needed != true
         run: rustup target add ${{ matrix.target }}
 
+      - uses: Swatinem/rust-cache@v2
+
       - name: Build binary
         run: >
           ${{ matrix.cross-needed == true && 'cross' || 'cargo' }}
