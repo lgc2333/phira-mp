@@ -59,12 +59,6 @@ jobs:
         run: |
           cargo install cross --git https://github.com/cross-rs/cross
 
-      - name: Install build dependencies (No cross & Linux)
-        if: matrix.cross-needed != true && runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libssl-dev
-
       - name: Add rustup target (No cross)
         if: matrix.cross-needed != true
         run: rustup target add ${{ matrix.target }}
